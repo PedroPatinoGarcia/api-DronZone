@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+</html>
+
+<head th:replace="fragments.html::cabecera"></head>
+
+<body>
+    <h1>Listado de drones</h1>
+    <nav th:replace="fragments.html::indice"></nav>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Activo</th>
+                <th>Trabajo</th>
+                <th>Editar</th>
+                <th>Borrar</th>
+        </thead>
+        <h2>Lista de Drones</h2>
+        <select id="select" size="3" onChange="changeDron();">
+            <option value="">Todas</option>
+            <option th:each="dron : ${listaDrones}" th:value="${dron.id}">
+            </option>
+        </select>
+        </hr>
+        <tbody>
+            <tr th:each="dron : ${listaDron}">
+                <td th:text="${dron.id}">Id</td>
+                <td th:text="${dron.lat}">Latitud</td>
+                <td th:text="${dron.lng}">Longitud</td>
+                <td th:text="${dron.activo}">Activo</td>
+                <td th:text="${dron.trabajo}">Trabajo</td>
+                <td><a th:href="@{/dron/edit/{id}(id=${dron.id})}">Editar</a></td>
+                <td><a th:href="@{/dron/delete/{id}(id=${dron.id})}">Borrar</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/dron/new">Nuevo dron</a><br />
+</body>
+
+<script type="text/javascript">
+    function changeDron() {
+        window.location.href = "/dron/list/" +
+            document.getElementById("select").value;
+    }
+</script>
+
+</html>

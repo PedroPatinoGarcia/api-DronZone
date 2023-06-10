@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="fragments.html::cabecera"></head>
+
+<body>
+    <h1>Bienvenido <span th:text="${nombre}"></span> a nuestra WEB</h1>
+    <h1>Index</h1>
+    <p>&copy;<span th:text="${anhoActual}">No encontrado</span></p>
+    <nav th:replace="fragments.html::indice"></nav>
+</body>
+
+</html>
