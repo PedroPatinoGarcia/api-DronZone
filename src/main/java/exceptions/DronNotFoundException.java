@@ -1,4 +1,4 @@
-package com.example.Tienda.exceptions;
+package exceptions;
 
 public class DronNotFoundException extends RuntimeException {
     public DronNotFoundException(Long id) {

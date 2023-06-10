@@ -1,13 +1,13 @@
-package com.example.Tienda.services;
+package services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.Tienda.domain.Dron;
-import com.example.Tienda.exceptions.DronNotFoundException;
-import com.example.Tienda.repository.DronRepository;
+import domain.Dron;
+import exceptions.DronNotFoundException;
+import repository.DronRepository;
 
 @Service
 public class DronServiceImpl implements DronService {

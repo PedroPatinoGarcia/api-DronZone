@@ -1,4 +1,4 @@
-package com.example.Tienda.dto;
+package dto;
 
 import java.util.Map;
 

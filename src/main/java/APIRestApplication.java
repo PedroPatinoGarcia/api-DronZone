@@ -1,13 +1,11 @@
-package com.example.Tienda;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TiendaApplication {
+public class APIRestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TiendaApplication.class, args);
+		SpringApplication.run(APIRestApplication.class, args);
 	}
 
 }

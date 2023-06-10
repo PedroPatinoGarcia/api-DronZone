@@ -1,10 +1,10 @@
-package com.example.Tienda.services;
+package services;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
-import com.example.Tienda.domain.Dron;
+import domain.Dron;
 
 public interface DronService {
     List<Dron> findAll();

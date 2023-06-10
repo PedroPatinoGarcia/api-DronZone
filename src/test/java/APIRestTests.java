@@ -1,5 +1,3 @@
-package com.example.Tienda;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
