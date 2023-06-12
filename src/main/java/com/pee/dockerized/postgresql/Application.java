@@ -1,11 +1,13 @@
+package com.pee.dockerized.postgresql;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class APIRestApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(APIRestApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
