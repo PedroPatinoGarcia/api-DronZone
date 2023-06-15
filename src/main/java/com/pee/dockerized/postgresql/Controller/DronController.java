@@ -1,53 +1,79 @@
 package com.pee.dockerized.postgresql.Controller;
 
-
-import java.util.List;
-
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pee.dockerized.postgresql.Model.Dron;
 import com.pee.dockerized.postgresql.Services.DronService;
+import com.pee.dockerized.postgresql.Services.TipoDronService;
 
-@CrossOrigin (origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/dron")
 public class DronController {
-
     @Autowired
-    private DronService dronService;
+    public DronService dronService;
+    @Autowired
+    public TipoDronService tipoDronService;
 
-    @GetMapping("")
-    public List<Dron> getAllDrone() {
-        return dronService.findAll();
+    @GetMapping({ "/", "" ,"/list"})
+    public String showList(Model model) {
+        model.addAttribute("listaDron", dronService.findAll());
+        model.addAttribute("listaTipoDron", tipoDronService.findAll());
+        model.addAttribute("tipoDronSeleccionada", "Todos");
+        return "dronView";
     }
 
-    @GetMapping("/{id}")
-    public Dron getDroneById (@PathVariable Long id) {
-        return dronService.findById(id);
+    @GetMapping("/list/{idCat}")
+    public String showListInCategory(@PathVariable long idCat, Model model) {
+        model.addAttribute("listaDrones", dronService.findByTipoDron(tipoDronService.findById(idCat)));
+        model.addAttribute("listaTipoDron", tipoDronService.findAll());
+        model.addAttribute("tipoDronSeleccionada", tipoDronService.findById(idCat).getModelo()); 
+    return "dronView";
+    } 
+   
+    @GetMapping("/new")
+    public String showNew(Model model) {
+        model.addAttribute("dronForm", new Dron());
+        model.addAttribute("listaTipoDron", tipoDronService.findAll());
+        return "newDron";
     }
 
-   @PostMapping("")
-    public ResponseEntity<?> newElement(@Validated @RequestBody Dron nuevoDron) {
-        Dron dron = dronService.add(nuevoDron);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dron); // cod 201
+    @PostMapping("/new/submit")
+    public String showNewSubmit(
+            @Valid @ModelAttribute("dronForm") Dron nuevoDron,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "newProducto";
+            dronService.add(nuevoDron);
+        return "redirect:/dron/";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteElement(@PathVariable Long id) {
-            dronService.delete(id);
-        return ResponseEntity.noContent().build(); // cod 204
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable long id, Model model) {
+        Dron dron = dronService.findById(id);
+        if (dron != null) {
+            model.addAttribute("dronForm", dron);
+            model.addAttribute("listaTipoDrones", tipoDronService.findAll());
+            return "editDron";
+        }
+        return "redirect:/dron";
     }
-    
+
+    @GetMapping("/delete/{id}")
+    public String showDelete(@PathVariable long id) {
+        dronService.delete(id);
+        return "redirect:/dron";
+    }
+
 }

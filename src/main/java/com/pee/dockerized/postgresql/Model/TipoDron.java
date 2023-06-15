@@ -1,31 +1,39 @@
 package com.pee.dockerized.postgresql.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
+import java.sql.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+
 @Entity
+@EqualsAndHashCode(of = "id")
 public class TipoDron {
     @Min(value = 0)
     @Id
     @GeneratedValue
     private Long id;
     @NotEmpty
-    private String tipo;
-    private Double latitud;
-    private Double longitud;
+    private String modelo;
+    private Date fabricacion;
+    private Double potencia;
+    private Double precio;
 
-    public TipoDron(String tipo, Double latitud, Double longitud) {
-        this.tipo = tipo;
-        this.latitud = latitud;
-        this.longitud = longitud;
+    public TipoDron(@NotEmpty String modelo, Date fabricacion, Double potencia, Double precio) {
+        this.modelo = modelo;
+        this.fabricacion = fabricacion;
+        this.potencia = potencia;
+        this.precio = precio;
     }
 }

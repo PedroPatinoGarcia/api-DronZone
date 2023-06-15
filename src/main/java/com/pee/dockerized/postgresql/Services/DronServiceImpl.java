@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pee.dockerized.postgresql.Model.Dron;
+import com.pee.dockerized.postgresql.Model.TipoDron;
 import com.pee.dockerized.postgresql.Repository.DronRepository;
 
+
 @Service
-public class DronServiceImplMem implements DronService{
+public class DronServiceImpl implements DronService{
     
     @Autowired
     DronRepository dronRepository;
@@ -34,5 +36,8 @@ public class DronServiceImplMem implements DronService{
             return true;
         }
         return false;
+    }
+    public List<Dron> findByTipoDron(TipoDron tipoDron) {
+        return dronRepository.findByTipoDron(tipoDron);
     }
 }

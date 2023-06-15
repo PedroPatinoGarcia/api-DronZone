@@ -9,7 +9,7 @@ import com.pee.dockerized.postgresql.Model.TipoDron;
 import com.pee.dockerized.postgresql.Repository.TipoDronRepository;
 
 @Service
-public class TipoDronServiceImplMem implements TipoDronService{
+public class TipoDronServiceImpl implements TipoDronService{
     
     @Autowired
     TipoDronRepository tipoDronRepository;
