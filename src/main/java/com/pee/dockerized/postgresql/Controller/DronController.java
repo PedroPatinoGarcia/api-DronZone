@@ -1,9 +1,12 @@
 package com.pee.dockerized.postgresql.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,53 +30,46 @@ public class DronController {
     public TipoDronService tipoDronService;
 
     @GetMapping({ "/", "" ,"/list"})
-    public String showList(Model model) {
-        model.addAttribute("listaDron", dronService.findAll());
-        model.addAttribute("listaTipoDron", tipoDronService.findAll());
-        model.addAttribute("tipoDronSeleccionada", "Todos");
-        return "dronView";
+    public ResponseEntity<Map<String, Object>> getList() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("listaDron", dronService.findAll());
+        response.put("listaTipoDron", tipoDronService.findAll());
+        response.put("tipoDronSeleccionada", "Todos");
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/list/{idCat}")
-    public String showListInCategory(@PathVariable long idCat, Model model) {
-        model.addAttribute("listaDrones", dronService.findByTipoDron(tipoDronService.findById(idCat)));
-        model.addAttribute("listaTipoDron", tipoDronService.findAll());
-        model.addAttribute("tipoDronSeleccionada", tipoDronService.findById(idCat).getModelo()); 
-    return "dronView";
+     @GetMapping("/list/{idCat}")
+    public ResponseEntity<Map<String, Object>> showListInCategory(@PathVariable long idCat) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("listaDrones", dronService.findByTipoDron(tipoDronService.findById(idCat)));
+        response.put("listaTipoDron", tipoDronService.findAll());
+        response.put("tipoDronSeleccionada", tipoDronService.findById(idCat).getModelo());
+        return ResponseEntity.ok(response);
     } 
    
     @GetMapping("/new")
-    public String showNew(Model model) {
-        model.addAttribute("dronForm", new Dron());
-        model.addAttribute("listaTipoDron", tipoDronService.findAll());
-        return "newDron";
+    public ResponseEntity<Map<String, Object>> showNew() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("dronForm", new Dron());
+        response.put("listaTipoDron", tipoDronService.findAll());
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/new/submit")
-    public String showNewSubmit(
+      @PostMapping("/new/submit")
+    public ResponseEntity<String> showNewSubmit(
             @Valid @ModelAttribute("dronForm") Dron nuevoDron,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "newProducto";
-            dronService.add(nuevoDron);
-        return "redirect:/dron/";
-    }
+            return ResponseEntity.badRequest().body("Error en los datos proporcionados");
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable long id, Model model) {
-        Dron dron = dronService.findById(id);
-        if (dron != null) {
-            model.addAttribute("dronForm", dron);
-            model.addAttribute("listaTipoDrones", tipoDronService.findAll());
-            return "editDron";
-        }
-        return "redirect:/dron";
+        dronService.add(nuevoDron);
+        return ResponseEntity.ok("Dron agregado correctamente");
     }
 
     @GetMapping("/delete/{id}")
-    public String showDelete(@PathVariable long id) {
+    public ResponseEntity<String> showDelete(@PathVariable long id) {
         dronService.delete(id);
-        return "redirect:/dron";
+        return ResponseEntity.ok("Dron eliminado correctamente");
     }
 
 }

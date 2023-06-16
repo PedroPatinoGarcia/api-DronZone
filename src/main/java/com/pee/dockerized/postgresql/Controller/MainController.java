@@ -1,10 +1,12 @@
 package com.pee.dockerized.postgresql.Controller;
 
-import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,40 +17,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pee.dockerized.postgresql.dto.FormInfo;
 
-
 @RestController
 @RequestMapping("")
 public class MainController {
     
-    @GetMapping({"/","/login","/home"})
-    public String indiceC(
-        Model model,
-        @RequestParam Optional <String> n
-        ){
-            model.addAttribute("nombre", n.orElse(""));
-            int anhoActual = LocalDate.now().getYear();
-            model.addAttribute("anhoActual", anhoActual);
-        return("/api/home");
+
+    @GetMapping({ "/", "/login", "/home" })
+    public ResponseEntity<Map<String, Object>> getIndex(Model model, @RequestParam Optional<String> n) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("nombre", n.orElse(""));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/maps")
-    public String contactaC(Model model){
-        model.addAttribute("formInfo", new FormInfo());
-        return("/api/maps");
+    public ResponseEntity<Map<String, Object>> getContact(Model model) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("formInfo", new FormInfo());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/maps**")
-    public String contactaSubmit(@Valid FormInfo formInfo, BindingResult bindingResult){
+    public ResponseEntity<String> submitContact(@Valid FormInfo formInfo, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "redirect:/api/maps";
+            return ResponseEntity.badRequest().body("Error en los datos proporcionados");
         else {
-        return "/api/maps";}
+            return ResponseEntity.ok("Contacto enviado correctamente");
+        }
     }
-    
 
     @GetMapping("/coordenadas")
-    public String quienesC(){
-        return("/api/coordenadas");
+    public ResponseEntity<String> getCoordinates() {
+        return ResponseEntity.ok("Coordenadas");
     }
-
 }

@@ -1,5 +1,7 @@
 package com.pee.dockerized.postgresql.Controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ErrorController {
     
     @GetMapping("/accessError")
-    public String permisionError(){
-        return("accessError");
+    public ResponseEntity<String> permissionError() {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Error");
     }
 }

@@ -9,6 +9,6 @@ public interface UsuarioService{
     public Usuario add(Usuario e);
     public List<Usuario> findAll();
     public Usuario findById(long id);
-    public void delete(Usuario usuario);
     public Usuario findByUsername(String nombre);
+    public boolean delete(Long id);
 }
