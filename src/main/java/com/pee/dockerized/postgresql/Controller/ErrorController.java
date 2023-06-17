@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ErrorController {
-    
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/accessError")
     public ResponseEntity<String> permissionError() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Error");

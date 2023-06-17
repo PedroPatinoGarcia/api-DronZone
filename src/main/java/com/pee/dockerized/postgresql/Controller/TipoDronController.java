@@ -24,12 +24,14 @@ public class TipoDronController {
     @Autowired
     private TipoDronService tipoDronService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping({ "/", "" })
     public String showList(Model model) {
         model.addAttribute("listaTipoDron", tipoDronService.findAll());
         return "";
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/new/submit")
     public String showNewSubmit(
             @Valid @ModelAttribute("") TipoDron nuevoTipoDron,
@@ -40,6 +42,7 @@ public class TipoDronController {
         return "";
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/delete/{id}")
     public String showDelete(@PathVariable long id) {
         tipoDronService.delete(id);

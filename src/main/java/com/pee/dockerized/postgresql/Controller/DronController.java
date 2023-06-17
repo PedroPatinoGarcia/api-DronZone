@@ -29,6 +29,7 @@ public class DronController {
     @Autowired
     public TipoDronService tipoDronService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping({ "/", "" ,"/list"})
     public ResponseEntity<Map<String, Object>> getList() {
         Map<String, Object> response = new HashMap<>();
@@ -38,7 +39,8 @@ public class DronController {
         return ResponseEntity.ok(response);
     }
 
-     @GetMapping("/list/{idCat}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/list/{idCat}")
     public ResponseEntity<Map<String, Object>> showListInCategory(@PathVariable long idCat) {
         Map<String, Object> response = new HashMap<>();
         response.put("listaDrones", dronService.findByTipoDron(tipoDronService.findById(idCat)));
@@ -46,7 +48,8 @@ public class DronController {
         response.put("tipoDronSeleccionada", tipoDronService.findById(idCat).getModelo());
         return ResponseEntity.ok(response);
     } 
-   
+    
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/new")
     public ResponseEntity<Map<String, Object>> showNew() {
         Map<String, Object> response = new HashMap<>();
@@ -55,7 +58,8 @@ public class DronController {
         return ResponseEntity.ok(response);
     }
 
-      @PostMapping("/new/submit")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/new/submit")
     public ResponseEntity<String> showNewSubmit(
             @Valid @ModelAttribute("dronForm") Dron nuevoDron,
             BindingResult bindingResult) {
@@ -66,6 +70,7 @@ public class DronController {
         return ResponseEntity.ok("Dron agregado correctamente");
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/delete/{id}")
     public ResponseEntity<String> showDelete(@PathVariable long id) {
         dronService.delete(id);
